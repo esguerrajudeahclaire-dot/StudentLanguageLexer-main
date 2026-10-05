@@ -1,79 +1,398 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#214b37">
-  <title>A Lexical Analyzer for Student Record Language</title>
+
+  <title>Student Lexer Lab | Lexical Analyzer</title>
+
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
+
 <body>
+
+  <!-- HEADER -->
   <header class="masthead">
     <div class="masthead-inner">
-      <span class="brand-mark" aria-hidden="true">JE</span>
-      <span class="brand-name">Student Lexer Lab</span>
+
+      <div class="brand">
+        <span class="brand-mark">JE</span>
+        <span class="brand-name">Student Lexer Lab</span>
+      </div>
+
+      <div class="header-info">
+        <span class="live-dot"></span>
+        <span>Ready</span>
+        <span class="version-tag">v1.0</span>
+      </div>
+
     </div>
   </header>
 
   <main id="top">
-    <section class="intro" aria-labelledby="page-title">
-      <h1 id="page-title">A Lexical Analyzer for Student Record Language</h1>
-      <p class="intro-copy">Enter a student record to tokenize it and check its format.</p>
-    </section>
 
-    <section class="workbench" aria-label="Student record analyzer">
-      <div class="editor-panel">
-        <div class="input-heading">
-          <label class="field-label" for="source-input">Student Record Language input</label>
-          <label class="sample-control" for="sample-select">Example
-            <select id="sample-select">
-              <option value="0">John</option>
-              <option value="1">Maria</option>
-              <option value="2">Alex</option>
-            </select>
-          </label>
-        </div>
-        <textarea id="source-input" spellcheck="false" autocapitalize="off" aria-describedby="input-help"></textarea>
-        <p class="field-help" id="input-help">Use uppercase keywords and separate each field with whitespace.</p>
-        <div class="action-row">
-          <button class="button button-primary" id="analyze-button" type="button">Analyze</button>
-          <button class="button button-quiet" id="clear-button" type="button">Clear</button>
-        </div>
+    <!-- INTRO -->
+    <section class="intro">
+
+      <div class="intro-icon">📖</div>
+
+      <div class="intro-content">
+        <p class="eyebrow">LEXICAL ANALYSIS SYSTEM</p>
+
+        <h1 id="page-title">
+          A Lexical Analyzer for
+          <span>Student Record Language</span>
+        </h1>
+
+        <p class="intro-copy">
+          Enter a student record to tokenize it and check its format.
+        </p>
       </div>
 
-      <section class="results-panel" aria-labelledby="results-title" aria-live="polite">
-        <div class="panel-heading results-heading">
-          <h2 id="results-title">Analysis result</h2>
-          <span class="status-badge" id="result-badge" data-state="idle">NOT ANALYZED</span>
-        </div>
-        <p class="result-message" id="result-message">Analyze a record to see its token sequence and validation result.</p>
-        <div class="error-area" id="error-area" hidden>
-          <h3>Issues found <span id="error-count"></span></h3>
-          <ul class="error-list" id="error-list"></ul>
-        </div>
-        <div class="table-wrap token-table-wrap">
-          <table class="data-table token-table">
-            <thead><tr><th>Position</th><th>Lexeme</th><th>Token Type</th></tr></thead>
-            <tbody id="token-rows"><tr class="empty-row"><td colspan="3">Tokens will appear here after analysis.</td></tr></tbody>
-          </table>
-        </div>
-      </section>
     </section>
 
-    <details class="reference-details">
-      <summary>Student Record Language rules</summary>
-      <p><code>STUDENT &lt;name&gt; ID &lt;number&gt; COURSE &lt;course&gt; YEAR &lt;number&gt; SECTION &lt;section&gt; SUBJECT &lt;subject&gt; GRADE &lt;number&gt; STATUS &lt;status&gt; EMAIL &lt;email&gt; AGE &lt;number&gt;</code></p>
-      <p><strong>Keywords:</strong> STUDENT, ID, COURSE, YEAR, SECTION, SUBJECT, GRADE, STATUS, EMAIL, AGE.</p>
-      <p>Alphabetic data is a VALUE; mixed letter/digit or underscore names are IDENTIFIER tokens. Numbers contain digits only. The record fields must appear in the listed order.</p>
-    </details>
+    <!-- DASHBOARD -->
+    <div class="dashboard-layout">
 
-    <details class="reference-details">
-      <summary>DFA / Automata Theory</summary>
-      <p>A DFA reads characters through states: <code>START → IDENTIFIER</code> for a letter or underscore, then loops on letters, digits, or underscores; <code>START → NUMBER</code> on a digit, then loops on digits. Reaching the end in an accepting state recognizes that token.</p>
-      <p>This illustrates the finite-state idea behind token patterns. The JavaScript lexer scans input and applies regular expressions; it does not execute a mathematical DFA.</p>
-    </details>
+      <!-- LEFT SIDE -->
+      <div class="main-column">
+
+        <!-- INPUT CARD -->
+        <section class="workbench" aria-label="Student record analyzer">
+
+          <div class="editor-panel">
+
+            <div class="input-heading">
+
+              <div>
+                <p class="eyebrow">INPUT</p>
+                <label class="field-label" for="source-input">
+                  Student Record Language
+                </label>
+              </div>
+
+              <label class="sample-control" for="sample-select">
+                Example
+
+                <select id="sample-select">
+                  <option value="0">John</option>
+                  <option value="1">Maria</option>
+                  <option value="2">Alex</option>
+                </select>
+              </label>
+
+            </div>
+
+            <textarea
+              id="source-input"
+              spellcheck="false"
+              autocapitalize="off"
+              aria-describedby="input-help"
+              placeholder="Enter your student record here..."
+            ></textarea>
+
+            <p class="field-help" id="input-help">
+              💡 Use uppercase keywords and separate each field with whitespace.
+            </p>
+
+            <div class="action-row">
+
+              <button
+                class="button button-primary"
+                id="analyze-button"
+                type="button"
+              >
+                ▶ Analyze
+              </button>
+
+              <button
+                class="button button-quiet"
+                id="clear-button"
+                type="button"
+              >
+                ↻ Clear
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ANALYSIS RESULT -->
+        <section class="workbench results-panel"
+          aria-labelledby="results-title"
+          aria-live="polite">
+
+          <div class="panel-heading results-heading">
+
+            <div>
+              <p class="eyebrow">LEXER OUTPUT</p>
+              <h2 id="results-title">Analysis Result</h2>
+              <p class="small-note">
+                Tokenized output with position, lexeme, and token type.
+              </p>
+            </div>
+
+            <span
+              class="status-badge"
+              id="result-badge"
+              data-state="idle"
+            >
+              NOT ANALYZED
+            </span>
+
+          </div>
+
+          <p class="result-message" id="result-message">
+            Analyze a record to see its token sequence and validation result.
+          </p>
+
+          <div class="error-area" id="error-area" hidden>
+            <h3>Issues found <span id="error-count"></span></h3>
+            <ul class="error-list" id="error-list"></ul>
+          </div>
+
+          <div class="table-wrap token-table-wrap">
+
+            <table class="data-table token-table">
+
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Position</th>
+                  <th>Lexeme</th>
+                  <th>Token Type</th>
+                </tr>
+              </thead>
+
+              <tbody id="token-rows">
+                <tr class="empty-row">
+                  <td colspan="4">
+                    Tokens will appear here after analysis.
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="sidebar">
+
+        <!-- QUOTE CARD -->
+        <section class="quote-card">
+          <span class="quote-mark">“</span>
+          <p>
+            From input to meaning —
+            <strong>one token at a time.</strong>
+          </p>
+        </section>
+
+        <!-- QUICK SUMMARY -->
+        <section class="side-card">
+
+          <div class="side-heading">
+            <span class="side-icon">▥</span>
+            <h2>Quick Summary</h2>
+          </div>
+
+          <div class="stats-grid">
+
+            <div class="stat-card stat-green">
+              <span class="stat-icon">▤</span>
+              <div>
+                <p>Total Tokens</p>
+                <strong id="total-tokens">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-card stat-green">
+              <span class="stat-icon">⌕</span>
+              <div>
+                <p>Keywords</p>
+                <strong id="keyword-count">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-card stat-yellow">
+              <span class="stat-icon">#</span>
+              <div>
+                <p>Numbers</p>
+                <strong id="number-count">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-card stat-red">
+              <span class="stat-icon">!</span>
+              <div>
+                <p>Errors</p>
+                <strong id="error-total">0</strong>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- TOKEN LEGEND -->
+        <section class="side-card">
+
+          <div class="side-heading">
+            <span class="side-icon">◇</span>
+            <h2>Token Legend</h2>
+          </div>
+
+          <div class="legend-grid">
+
+            <div class="legend-item">
+              <span class="token-type" data-type="KEYWORD">KEYWORD</span>
+              <span>Language keyword</span>
+            </div>
+
+            <div class="legend-item">
+              <span class="token-type" data-type="EMAIL">EMAIL</span>
+              <span>Email address</span>
+            </div>
+
+            <div class="legend-item">
+              <span class="token-type" data-type="VALUE">VALUE</span>
+              <span>Field value</span>
+            </div>
+
+            <div class="legend-item">
+              <span class="token-type" data-type="IDENTIFIER">IDENTIFIER</span>
+              <span>Identifier</span>
+            </div>
+
+            <div class="legend-item">
+              <span class="token-type" data-type="NUMBER">NUMBER</span>
+              <span>Numeric value</span>
+            </div>
+
+            <div class="legend-item">
+              <span class="token-type" data-type="ERROR">ERROR</span>
+              <span>Invalid token</span>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- STUDENT PREVIEW -->
+        <section class="side-card">
+
+          <div class="side-heading">
+            <span class="side-icon">♙</span>
+            <h2>Student Record Preview</h2>
+          </div>
+
+          <div class="preview-empty" id="preview-empty">
+            Analyze a valid record to display student information.
+          </div>
+
+          <div class="preview-table-wrap">
+
+            <table class="preview-table">
+
+              <tbody>
+                <tr><th>Student</th><td id="preview-name">—</td></tr>
+                <tr><th>ID</th><td id="preview-id">—</td></tr>
+                <tr><th>Course</th><td id="preview-course">—</td></tr>
+                <tr><th>Year</th><td id="preview-year">—</td></tr>
+                <tr><th>Section</th><td id="preview-section">—</td></tr>
+                <tr><th>Subject</th><td id="preview-subject">—</td></tr>
+                <tr><th>Grade</th><td id="preview-grade">—</td></tr>
+                <tr><th>Status</th><td id="preview-status">—</td></tr>
+                <tr><th>Email</th><td id="preview-email">—</td></tr>
+                <tr><th>Age</th><td id="preview-age">—</td></tr>
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+      </aside>
+
+    </div>
+
+    <!-- LANGUAGE RULES -->
+    <section class="learning-section">
+
+      <details class="reference-details">
+
+        <summary>📘 Student Record Language Rules</summary>
+
+        <p>
+          <code>
+            STUDENT &lt;name&gt; ID &lt;number&gt; COURSE &lt;course&gt;
+            YEAR &lt;number&gt; SECTION &lt;section&gt;
+            SUBJECT &lt;subject&gt; GRADE &lt;number&gt;
+            STATUS &lt;status&gt; EMAIL &lt;email&gt; AGE &lt;number&gt;
+          </code>
+        </p>
+
+        <p>
+          <strong>Keywords:</strong>
+          STUDENT, ID, COURSE, YEAR, SECTION, SUBJECT,
+          GRADE, STATUS, EMAIL, AGE.
+        </p>
+
+        <p>
+          Alphabetic data is a VALUE; mixed letter/digit or
+          underscore names are IDENTIFIER tokens.
+          Numbers contain digits only.
+          The record fields must appear in the listed order.
+        </p>
+
+      </details>
+
+      <!-- DFA -->
+      <details class="reference-details">
+
+        <summary>⚙ DFA / Automata Theory</summary>
+
+        <p>
+          A DFA reads characters through states:
+          <code>START → IDENTIFIER</code> for a letter or underscore,
+          then loops on letters, digits, or underscores;
+          <code>START → NUMBER</code> on a digit,
+          then loops on digits.
+        </p>
+
+        <p>
+          This illustrates the finite-state idea behind token patterns.
+          The JavaScript lexer scans input and applies regular expressions;
+          it does not execute a mathematical DFA.
+        </p>
+
+      </details>
+
+    </section>
+
   </main>
-  <footer class="page-footer">Esguerra &amp; Muso | MCO</footer>
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    <div>
+      <strong>🌿 Student Lexer Lab</strong>
+      <span> | Lexical Analysis | Tokenization | Validation | DFA</span>
+    </div>
+
+    <p>Build your parsing skills, one token at a time.</p>
+
+    <small>Esguerra &amp; Muso | MCO</small>
+  </footer>
+
 </body>
 </html>
