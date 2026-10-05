@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#214b37">
+  <title>A Lexical Analyzer for Student Record Language</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <span class="brand-mark" aria-hidden="true">JE</span>
+      <span class="brand-name">Student Lexer Lab</span>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="intro" aria-labelledby="page-title">
+      <h1 id="page-title">A Lexical Analyzer for Student Record Language</h1>
+      <p class="intro-copy">Enter a student record to tokenize it and check its format.</p>
+    </section>
+
+    <section class="workbench" aria-label="Student record analyzer">
+      <div class="editor-panel">
+        <div class="input-heading">
+          <label class="field-label" for="source-input">Student Record Language input</label>
+          <label class="sample-control" for="sample-select">Example
+            <select id="sample-select">
+              <option value="0">John</option>
+              <option value="1">Maria</option>
+              <option value="2">Alex</option>
+            </select>
+          </label>
+        </div>
+        <textarea id="source-input" spellcheck="false" autocapitalize="off" aria-describedby="input-help"></textarea>
+        <p class="field-help" id="input-help">Use uppercase keywords and separate each field with whitespace.</p>
+        <div class="action-row">
+          <button class="button button-primary" id="analyze-button" type="button">Analyze</button>
+          <button class="button button-quiet" id="clear-button" type="button">Clear</button>
+        </div>
+      </div>
+
+      <section class="results-panel" aria-labelledby="results-title" aria-live="polite">
+        <div class="panel-heading results-heading">
+          <h2 id="results-title">Analysis result</h2>
+          <span class="status-badge" id="result-badge" data-state="idle">NOT ANALYZED</span>
+        </div>
+        <p class="result-message" id="result-message">Analyze a record to see its token sequence and validation result.</p>
+        <div class="error-area" id="error-area" hidden>
+          <h3>Issues found <span id="error-count"></span></h3>
+          <ul class="error-list" id="error-list"></ul>
+        </div>
+        <div class="table-wrap token-table-wrap">
+          <table class="data-table token-table">
+            <thead><tr><th>Position</th><th>Lexeme</th><th>Token Type</th></tr></thead>
+            <tbody id="token-rows"><tr class="empty-row"><td colspan="3">Tokens will appear here after analysis.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <details class="reference-details">
+      <summary>Student Record Language rules</summary>
+      <p><code>STUDENT &lt;name&gt; ID &lt;number&gt; COURSE &lt;course&gt; YEAR &lt;number&gt; SECTION &lt;section&gt; SUBJECT &lt;subject&gt; GRADE &lt;number&gt; STATUS &lt;status&gt; EMAIL &lt;email&gt; AGE &lt;number&gt;</code></p>
+      <p><strong>Keywords:</strong> STUDENT, ID, COURSE, YEAR, SECTION, SUBJECT, GRADE, STATUS, EMAIL, AGE.</p>
+      <p>Alphabetic data is a VALUE; mixed letter/digit or underscore names are IDENTIFIER tokens. Numbers contain digits only. The record fields must appear in the listed order.</p>
+    </details>
+
+    <details class="reference-details">
+      <summary>DFA / Automata Theory</summary>
+      <p>A DFA reads characters through states: <code>START → IDENTIFIER</code> for a letter or underscore, then loops on letters, digits, or underscores; <code>START → NUMBER</code> on a digit, then loops on digits. Reaching the end in an accepting state recognizes that token.</p>
+      <p>This illustrates the finite-state idea behind token patterns. The JavaScript lexer scans input and applies regular expressions; it does not execute a mathematical DFA.</p>
+    </details>
+  </main>
+  <footer class="page-footer">Esguerra &amp; Muso | MCO</footer>
+</body>
+</html>
