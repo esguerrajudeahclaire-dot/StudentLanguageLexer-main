@@ -51,6 +51,25 @@ const errorArea = document.querySelector("#error-area");
 const errorCount = document.querySelector("#error-count");
 const errorList = document.querySelector("#error-list");
 const tokenRows = document.querySelector("#token-rows");
+const totalTokens = document.querySelector("#total-tokens");
+const keywordCount = document.querySelector("#keyword-count");
+const numberCount = document.querySelector("#number-count");
+const errorTotal = document.querySelector("#error-total");
+
+const previewEmpty = document.querySelector("#preview-empty");
+
+const previewFields = {
+  name: document.querySelector("#preview-name"),
+  id: document.querySelector("#preview-id"),
+  course: document.querySelector("#preview-course"),
+  year: document.querySelector("#preview-year"),
+  section: document.querySelector("#preview-section"),
+  subject: document.querySelector("#preview-subject"),
+  grade: document.querySelector("#preview-grade"),
+  status: document.querySelector("#preview-status"),
+  email: document.querySelector("#preview-email"),
+  age: document.querySelector("#preview-age")
+};
 
 function createToken(type, value, position, message = "") {
   return { type, value, position, message };
@@ -281,6 +300,19 @@ function displayTokens(tokens) {
     tokenRows.append(row);
   }
 }
+function updateDashboard(tokens, issues) {
+  totalTokens.textContent = tokens.length;
+
+  keywordCount.textContent = tokens.filter(
+    token => token.type === "KEYWORD"
+  ).length;
+
+  numberCount.textContent = tokens.filter(
+    token => token.type === "NUMBER"
+  ).length;
+
+  errorTotal.textContent = issues.length;
+}
 
 function displayIssues(issues) {
   errorList.replaceChildren();
@@ -309,6 +341,7 @@ function displayIssues(issues) {
 function displayAnalysis(result) {
   displayTokens(result.tokens);
   displayIssues(result.issues);
+  updateDashboard(result.tokens, result.issues);
 
   if (result.valid) {
     resultBadge.dataset.state = "valid";
@@ -324,7 +357,39 @@ function displayAnalysis(result) {
 }
 
 function analyzeInput() {
-  displayAnalysis(analyzeRecord(sourceInput.value));
+  const result = analyzeRecord(sourceInput.value);
+
+  displayAnalysis(result);
+
+  if (result.valid) {
+    updateStudentPreview(sourceInput.value);
+  }
+}
+function updateStudentPreview(input) {
+  const parts = input.trim().split(/\s+/);
+
+  function getValue(keyword) {
+    const index = parts.indexOf(keyword);
+
+    if (index !== -1) {
+      return parts[index + 1];
+    }
+
+    return "—";
+  }
+
+  previewFields.name.textContent = getValue("STUDENT");
+  previewFields.id.textContent = getValue("ID");
+  previewFields.course.textContent = getValue("COURSE");
+  previewFields.year.textContent = getValue("YEAR");
+  previewFields.section.textContent = getValue("SECTION");
+  previewFields.subject.textContent = getValue("SUBJECT");
+  previewFields.grade.textContent = getValue("GRADE");
+  previewFields.status.textContent = getValue("STATUS");
+  previewFields.email.textContent = getValue("EMAIL");
+  previewFields.age.textContent = getValue("AGE");
+
+  previewEmpty.style.display = "none";
 }
 
 function clearAnalyzer() {
